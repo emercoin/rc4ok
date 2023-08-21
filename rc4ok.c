@@ -15,8 +15,7 @@ void rc4ok_ksa(rc4ok *ctx, const uint8_t *p, int n) {
         j += ctx->S[i] + p[i % n];
         uint8_t x = ctx->S[i]; ctx->S[i] = ctx->S[j]; ctx->S[j] = x;
     } while(++i);
-
-
+    i = j ^ 0x55; // Randomize i != j
     uint8_t dummy[0x100]; // 256 empty iterations for remix S-block
     rc4ok_prng(ctx,  dummy, sizeof(dummy));
 } // rc4ok_ksa
