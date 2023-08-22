@@ -44,8 +44,9 @@ int main(int argc, char **argv) {
     } // if(use_entropy) - 1
 
     // Generete prng output num_mb megabytes
-    for(uint32_t mb_no = 0; mb_no < num_mb; mb_no++)
-        for(int kb_no = 0; kb_no < 1024; kb_no++) {
+    uint32_t mb_no, kb_no;
+    for(mb_no = 0; mb_no < num_mb; mb_no++)
+        for(kb_no = 0; kb_no < 1024; kb_no++) {
             uint8_t outbuf[1024];
            rc4ok_prng(&prng, outbuf, sizeof(outbuf));
             if(use_entropy >= 0)
