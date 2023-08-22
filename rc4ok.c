@@ -8,8 +8,10 @@ void rc4ok_ksa(rc4ok *ctx, const uint8_t *p, int n) {
     uint8_t j = 0;
     ctx->i = ctx->j32 = 0;
     do {
-        ctx->S[i] = i;
-    } while(i += 233);
+        j += 233;
+        ctx->S[i] = j;
+    } while(++i);
+    // After 256 iterations here, both (i, j) == 0 again
     do {
         j += ctx->S[i] + p[i % n];
         uint8_t x = ctx->S[i]; ctx->S[i] = ctx->S[j]; ctx->S[j] = x;
