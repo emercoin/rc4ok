@@ -28,7 +28,8 @@ void rc4ok_ksa(rc4ok *ctx, const uint8_t *p, int n) {
 // Based on [ctx], generates sequence of pdeudo-random bytes length[n],
 // and deploy it by pointer [p]
 void rc4ok_prng(rc4ok *ctx, uint8_t *p, int n) {
-    while(n--) {
+    uint8_t *p_end = p + n;
+    while(p < p_end) {
         uint8_t x = ctx->S[ctx->i += 11];
         ctx->j32 = ((ctx->j32 << 1) | (ctx->j32 >> 31)) + x;
         uint8_t j = ctx->j32;
