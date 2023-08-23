@@ -18,7 +18,7 @@ void rc4ok_ksa(rc4ok *ctx, const uint8_t *p, int n) {
     // Init (i, j) fpr PRNG context
     ctx->i = ctx->S[j ^ 0x55]; // Randomize PRNG i
     ctx->j32 = 0;              // Clear PRNG j
-    // 256 empty iterations for remix S-block
+    // 256 empty iterations for initial remix S-block
     uint8_t dummy[0x100];
     rc4ok_prng(ctx,  dummy, sizeof(dummy));
 } // rc4ok_ksa
@@ -26,20 +26,20 @@ void rc4ok_ksa(rc4ok *ctx, const uint8_t *p, int n) {
 /*-----------------------------------------------------------------------------*/
 // Preudo-Random Numbers generator
 // Based on [ctx], generates sequence of pdeudo-random bytes length[n],
-// and deploy it by pointer [p]
+// and deploys it by pointer [p]
 void rc4ok_prng(rc4ok *ctx, uint8_t *p, int n) {
     uint8_t *p_end = p + n;
     while(p < p_end) {
-        uint8_t x = ctx->S[ctx->i += 11];
+        uint8_t    i = ctx->i += 11;
         uint32_t j32 = ctx->j32;
+        uint8_t x = ctx->S[i];
         j32 = ((j32 << 1) | (j32 >> 31)) + x;
         ctx->j32  = j32;
         uint8_t j = j32;
         uint8_t y = ctx->S[j];
         ctx->S[j] = x;
-        ctx->S[ctx->i] = y;
-        x += y;
-        *p++ = ctx->S[x];
+        ctx->S[i] = y;
+        *p++ = ctx->S[(uint8_t)(x + y)];
     } // while
 } // rc4ok_prng
 
