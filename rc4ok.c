@@ -31,8 +31,10 @@ void rc4ok_prng(rc4ok *ctx, uint8_t *p, int n) {
     uint8_t *p_end = p + n;
     while(p < p_end) {
         uint8_t x = ctx->S[ctx->i += 11];
-        ctx->j32 = ((ctx->j32 << 1) | (ctx->j32 >> 31)) + x;
-        uint8_t j = ctx->j32;
+        uint32_t j32 = ctx->j32;
+        j32 = ((j32 << 1) | (j32 >> 31)) + x;
+        ctx->j32  = j32;
+        uint8_t j = j32;
         uint8_t y = ctx->S[j];
         ctx->S[j] = x;
         ctx->S[ctx->i] = y;
