@@ -6,8 +6,8 @@
 // into PRNG state.
 
 typedef struct {
-    volatile uint32_t j32;      // RC4 "j" and extra 1+2 bytes - entropy buffer
     uint8_t           S[0x100]; // S-block
+    volatile uint32_t j32;      // RC4 "j" and extra 1+2 bytes - entropy buffer
     uint8_t           i;        // RC4 "i"
 
 } rc4ok;
