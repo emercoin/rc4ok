@@ -18,7 +18,7 @@ void rc4ok_ksa(rc4ok *ctx, const uint8_t *p, uint32_t n) {
         uint8_t x = ctx->S[i]; ctx->S[i] = ctx->S[j]; ctx->S[j] = x;
         i++;
     }
-    // Init (i, j) fpr PRNG context
+    // Init (i, j) for PRNG context
     ctx->i = ctx->S[j ^ 0x55]; // Randomize PRNG i
     ctx->j32 = 0;              // Clear PRNG j
     // 256 empty iterations for initial remix S-block
