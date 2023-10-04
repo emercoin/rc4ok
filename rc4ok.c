@@ -11,10 +11,13 @@ void rc4ok_ksa(rc4ok *ctx, const uint8_t *p, int n) {
         ctx->S[i] = j;
     } while(++i);
     // After 256 iterations here, both (i, j) == 0 again
-    do {
-        j += ctx->S[i] + p[i % n];
+    // We must process both: entire S-block[256] and entire key
+    int k, k_len = (n > 256)? n : 256;
+    for(k = 0; k < k_len; k++) {
+        j += ctx->S[i] + p[k % n];
         uint8_t x = ctx->S[i]; ctx->S[i] = ctx->S[j]; ctx->S[j] = x;
-    } while(++i);
+        i++;
+    }
     // Init (i, j) fpr PRNG context
     ctx->i = ctx->S[j ^ 0x55]; // Randomize PRNG i
     ctx->j32 = 0;              // Clear PRNG j
