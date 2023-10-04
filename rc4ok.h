@@ -14,12 +14,12 @@ typedef struct {
 
 // Key Scheduling Algorithm
 // Inits rc4ok context [ctx] with byte-string [p] length [n]
-void rc4ok_ksa(rc4ok *ctx, const uint8_t *p, int n);
+void rc4ok_ksa(rc4ok *ctx, const uint8_t *p, uint32_t n);
 
 // Preudo-Random Numbers generator
 // Based on [ctx], generates sequence of pdeudo-random bytes length[n],
 // and deploy it by pointer [p]
-void rc4ok_prng(rc4ok *ctx, uint8_t *p, int n);
+void rc4ok_prng(rc4ok *ctx, uint8_t *p, uint32_t n);
 
 // Entropy mixer
 // Adds 16-bit physical entrpy value [x] to rc4ok context [ctx]
