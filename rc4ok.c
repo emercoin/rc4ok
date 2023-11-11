@@ -1,5 +1,9 @@
 #include <rc4ok.h>
 
+// Size of chunk array, where dummy output of 256 iniaial bytes will be deployed
+// Must be 256 / (2^N)
+#define DUMMY_SIZE (256 / 8)
+
 /*-----------------------------------------------------------------------------*/
 // Key Scheduling Algorithm
 // Inits rc4ok context [ctx] with byte-string [p] length [n]
@@ -22,8 +26,14 @@ void rc4ok_ksa(rc4ok *ctx, const uint8_t *p, uint32_t n) {
     ctx->i = ctx->S[j ^ 0x55]; // Randomize PRNG i
     ctx->j32 = 0;              // Clear PRNG j
     // 256 empty iterations for initial remix S-block
-    uint8_t dummy[0x100];
-    rc4ok_prng(ctx,  dummy, sizeof(dummy));
+    // Performs by series of calls rc4ok_prng()
+    // The series of calls prevents the start of the sequence
+    // from leaking through the stack
+    uint8_t dummy[DUMMY_SIZE];
+    i = 0;
+    do
+        rc4ok_prng(ctx,  dummy, sizeof(dummy));
+    while((i += DUMMY_SIZE) != 0);
 } // rc4ok_ksa
 
 /*-----------------------------------------------------------------------------*/
