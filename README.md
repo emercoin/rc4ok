@@ -51,6 +51,8 @@ This behavior is **intentional** and plays a critical role in the security model
 
 In the context of OS‑level randomness, immediate reflection of entropy can be a liability. RC4OK deliberately introduces diffusion latency to protect against such scenarios.
 
+Entropy injection in RC4OK is **intentionally throttled** to prevent external inputs from controlling or degrading the generator state.
+
 ---
 
 ## Relation to RC4
