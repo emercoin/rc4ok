@@ -80,6 +80,16 @@ Springer Link: [https://link.springer.com/article/10.1007/s11416-025-00548-2](ht
 
 The paper focuses on engineering considerations for system‑level randomness, performance, and entropy handling rather than on formal cryptographic proofs.
 
+RC4OK is described in the original publication as “an improved version of the classical RC4 stream cipher.” In this implementation, several known RC4 attack vectors have been mitigated:
+
+ - predictable initial state of the S array,
+ - early‑keystream bias,
+ - reduced cyclic behavior of the internal indices,
+ - direct leakage of key material via first bytes.
+
+These improvements make RC4OK stronger than classic RC4.
+Nevertheless, RC4OK should be used for stream encryption with caution. Its design priorities were focused on operating-system-level PRNG performance and safe asynchronous entropy mixing, not on formal cryptographic proofs or modern secure cipher standards.
+
 ---
 
 ## Intended Use Cases
